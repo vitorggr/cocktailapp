@@ -48,8 +48,8 @@ export default function Navbar() {
           <img
             src="logo.png"
             alt="Logo"
-            width={120}
-            height={40}
+            width={48}
+            height={48}
             style={{ cursor: "pointer" }}
           />
         </Box>

@@ -25,7 +25,7 @@ export default function Home() {
               backgroundImage: `url(${secondaryImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              height: "90vh",
+              height: "85vh",
               width: "100%",
               position: "absolute",
               top: 0,
