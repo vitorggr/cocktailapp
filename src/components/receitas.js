@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Grid, Card, CardContent, Typography, CircularProgress, IconButton, Stack, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import ReactPaginate from 'react-paginate';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from '@mui/icons-material/Refresh'; 
+import Footer from "./footer";
 
 const fetchRandomDrinks = async () => {
     try {
@@ -13,7 +14,7 @@ const fetchRandomDrinks = async () => {
         const drinks = [];
 
         for (const response of responses) {
-            const data = response.data; 
+            const data = response.data;
             const drink = data.drinks?.[0];
             if (drink) {
                 drinks.push({
@@ -33,7 +34,7 @@ const fetchRandomDrinks = async () => {
 const fetchDrinkDetails = async (id) => {
     try {
         const response = await axios.get(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-        const data = response.data; 
+        const data = response.data;
         return data.drinks?.[0];
     } catch (error) {
         console.error('Erro ao buscar detalhes do drink:', error);
@@ -44,20 +45,20 @@ const fetchDrinkDetails = async (id) => {
 export default function Receitas() {
     const [drinks, setDrinks] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const [loading, setLoading] = useState(false); 
-    const [open, setOpen] = useState(false); 
-    const [selectedDrink, setSelectedDrink] = useState(null); 
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [selectedDrink, setSelectedDrink] = useState(null);
     const ITEMS_PER_PAGE = 9;
 
     const refreshDrinks = async () => {
         setLoading(true);
         const fetchedDrinks = await fetchRandomDrinks();
         setDrinks(fetchedDrinks);
-        setLoading(false); 
+        setLoading(false);
     };
 
     useEffect(() => {
-        refreshDrinks(); 
+        refreshDrinks();
     }, []);
 
     const lstDrinks = useMemo(() => {
@@ -144,7 +145,7 @@ export default function Receitas() {
                                 <img src={selectedDrink.strDrinkThumb} alt={selectedDrink.strDrink} style={{ width: '100%', borderRadius: '8px' }} />
                             </Box>
                             <Typography variant="body1" sx={{ marginTop: 2 }}>
-                                <strong>Instruções:</strong> <br/><br/>{selectedDrink.strInstructions}
+                                <strong>Instruções:</strong> <br /><br />{selectedDrink.strInstructions}
                             </Typography>
                             <Typography variant="body1" sx={{ marginTop: 2 }}>
                                 <strong>Ingredientes:</strong>
@@ -167,6 +168,7 @@ export default function Receitas() {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Footer />
         </Box>
     );
 }

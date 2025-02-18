@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import Footer from "./footer";
 import axios from "axios";
 import {
   Box,
@@ -218,6 +219,7 @@ export default function Contato() {
             Enviar
           </Button>
         </Box>
+        <Footer />
       </form>
     </Container>
   );

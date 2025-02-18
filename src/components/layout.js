@@ -24,7 +24,7 @@ export default function Layout({ children }) {
     <>
       <ThemeProvider theme={theme}>
         <Navbar />
-        <Box sx={{ height: 64 }} />
+        <Box sx={{ height: 50 }} />
         {children}
       </ThemeProvider>
     </>
