@@ -8,17 +8,17 @@ export default function Footer() {
     const checkScroll = () => {
       setTimeout(() => {
         const hasScroll = document.documentElement.scrollHeight > window.innerHeight;
-        setIsVisible(!hasScroll); // Se não há scroll, mostra o footer
+        setIsVisible(!hasScroll);
       }, 200);
     };
 
     const handleScroll = () => {
-      setIsVisible(true); // Exibe o footer ao primeiro scroll
+      setIsVisible(true); 
     };
 
-    checkScroll(); // Verifica após a renderização inicial
-    window.addEventListener("resize", checkScroll); // Recalcula ao redimensionar
-    window.addEventListener("scroll", handleScroll, { once: true }); // Exibe ao primeiro scroll
+    checkScroll(); 
+    window.addEventListener("resize", checkScroll);
+    window.addEventListener("scroll", handleScroll, { once: true });
 
     return () => {
       window.removeEventListener("resize", checkScroll);

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Grid, Card, CardContent, Typography, CircularProgress, IconButton, Stack, Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
 import ReactPaginate from 'react-paginate';
-import RefreshIcon from '@mui/icons-material/Refresh'; 
+import RefreshIcon from '@mui/icons-material/Refresh';
 import Footer from "./footer";
 
 const fetchRandomDrinks = async () => {
@@ -141,21 +141,25 @@ export default function Receitas() {
                 <DialogContent>
                     {selectedDrink ? (
                         <>
+                            <Typography variant="caption" sx={{ marginTop: 2 }}>
+                                * Para uma melhor compreensão da receita, considere utilizar seu tradutor de preferência<br/>
+                            </Typography>
                             <Box sx={{ textAlign: 'center' }}>
                                 <img src={selectedDrink.strDrinkThumb} alt={selectedDrink.strDrink} style={{ width: '100%', borderRadius: '8px' }} />
                             </Box>
-                            <Typography variant="body1" sx={{ marginTop: 2 }}>
-                                <strong>Instruções:</strong> <br /><br />{selectedDrink.strInstructions}
-                            </Typography>
-                            <Typography variant="body1" sx={{ marginTop: 2 }}>
-                                <strong>Ingredientes:</strong>
+                            <Typography variant="body3" sx={{ marginTop: 2 }}>
                                 <ul>
+
                                     {Object.keys(selectedDrink)
                                         .filter((key) => key.includes('strIngredient') && selectedDrink[key])
                                         .map((key) => (
                                             <li key={key}>{selectedDrink[key]}</li>
                                         ))}
+
                                 </ul>
+                            </Typography>
+                            <Typography variant="body3" sx={{ marginTop: 2 }}>
+                                {selectedDrink.strInstructions}
                             </Typography>
                         </>
                     ) : (
