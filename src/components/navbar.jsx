@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -8,36 +8,39 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import "./materialize.css";
-import {
-  createTheme
-} from "@mui/material";
-import { red } from "@mui/material/colors";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: red[900],
-      light: "#ff7961",
-      dark: "#ba000d",
-    },
-  },
-});
+import { useAuth } from "./auth/auth";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 export default function Navbar() {
-  const [anchor, setAnchor] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Não renderizar o navbar nas páginas de login e cadastro
+  if (location.pathname === '/login' || location.pathname === '/signup') {
+    return null;
+  }
 
   const handleMenuOpen = (event) => {
-    setAnchor(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
-    setAnchor(null);
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    handleMenuClose();
   };
 
   const menuItems = [
     { label: "Início", href: "/" },
     { label: "Receitas", href: "/receitas" },
+    { label: "Favoritos", href: "/favoritos" },
     { label: "Fale conosco", href: "/contato" },
   ];
 
@@ -51,10 +54,12 @@ export default function Navbar() {
             width={48}
             height={48}
             style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
           />
         </Box>
 
-        <Box sx={{ display: { xs: "none", md: "flex" } }}>
+        {/* Desktop View */}
+        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
           {menuItems.map((item) => (
             <Button
               key={item.label}
@@ -66,8 +71,30 @@ export default function Navbar() {
               {item.label}
             </Button>
           ))}
+          
+          {user ? (
+            <Button
+              color="inherit"
+              onClick={handleLogout}
+              sx={{ color: "white" }}
+              startIcon={<ExitToAppIcon />}
+            >
+              Sair
+            </Button>
+          ) : (
+            <Button
+              color="inherit"
+              component={Link}
+              to="/login"
+              sx={{ color: "white" }}
+              startIcon={<AccountCircleIcon />}
+            >
+              Login
+            </Button>
+          )}
         </Box>
 
+        {/* Mobile View */}
         <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <IconButton
             edge="end"
@@ -78,8 +105,8 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Menu
-            anchorEl={anchor}
-            open={Boolean(anchor)}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
             {menuItems.map((item) => (
@@ -92,6 +119,21 @@ export default function Navbar() {
                 {item.label}
               </MenuItem>
             ))}
+            <MenuItem
+              onClick={user ? handleLogout : () => navigate("/login")}
+              component={user ? "button" : Link}
+              to={user ? null : "/login"}
+            >
+              {user ? (
+                <>
+                  <ExitToAppIcon sx={{ mr: 1 }} /> Sair
+                </>
+              ) : (
+                <>
+                  <AccountCircleIcon sx={{ mr: 1 }} /> Login
+                </>
+              )}
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>

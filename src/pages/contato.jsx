@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import Footer from "./footer";
+import Footer from "../components/footer";
 import axios from "axios";
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { db } from '../components/auth/firebase';
 import {
   Box,
   Button,
@@ -16,6 +19,9 @@ import {
 } from "@mui/material";
 
 export default function Contato() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const { control, handleSubmit, reset, watch, formState: { errors } } = useForm();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -60,17 +66,21 @@ export default function Contato() {
 
   const onSubmit = async (data) => {
     try {
-      setMessage("Formulário enviado com sucesso!");
-      console.info(data);
+      await addDoc(collection(db, 'contatos'), {
+        ...data,
+        dateTime: serverTimestamp(),
+        userId: user.uid
+      });
+      
+      setMessage("Formulário enviado com sucesso! Aguarde em seu e-mail um retorno do contato");
       setOpen(true);
       reset();
     } catch (error) {
       setMessage("Erro ao enviar o formulário. Tente novamente.");
-      console.error(error);
+      console.error("Erro ao enviar para Firebase:", error);
       setOpen(true);
     }
   };
-
   const handleClose = () => {
     setOpen(false);
   };

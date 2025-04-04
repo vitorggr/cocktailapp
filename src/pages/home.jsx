@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ParallaxProvider, Parallax } from "react-scroll-parallax";
 import { Box, Container, Typography, Button } from "@mui/material";
-import Footer from "./footer";
+import Footer from "../components/footer";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
