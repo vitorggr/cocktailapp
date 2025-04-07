@@ -1,10 +1,10 @@
 ## 🔨 Objetivos
 
 - Aplicar conceitos de arquitetura de front-end com **React**.
-- Desenvolver um app baseado no ciclo de vida das aplicações web.
-- Desenvolver as rotas da aplicação conforme as boas práticas.
-- Desenvolver os formulários através de componentes.
-- Desenvolver componentes estilizados.
+- Desenvolver o controle de estado através de hooks React.
+- Controlar o render através de componentes e rotas.
+- Controlar os eventos através de mudanças de componentes e dados.
+- Implementar validação e autenticação de usuários através de rotas/API's externas.
 
 ## 🚀 Guia Rápido
 
